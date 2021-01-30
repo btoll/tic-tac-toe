@@ -31,3 +31,19 @@
     transform: rotate(360deg);
   }
 }
+
+#board {
+    display: flex;
+    margin: 100px;
+}
+
+.board-row {
+    flex-direction: row;
+}
+
+.board-square {
+    border: 1px solid black;
+    height: 100px;
+    width: 100px;
+}
+

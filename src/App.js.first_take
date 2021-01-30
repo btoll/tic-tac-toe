@@ -1,0 +1,72 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const Square = props => {
+    return (
+        <div className="board-square" data-x={props.position.x} data-y={props.position.y}>
+            {props.value}
+        </div>
+    );
+};
+
+const Board = props => {
+    return (
+        <div id="board" onClick={props.onMove}>
+        {
+            [...Array(3)].map((_, col) =>
+                (
+                    <div key={col} className="board-row">
+                        {
+                            [...Array(3)].map((_, row) =>
+                                <Square key={row} position={{x: col, y: row}} value={props.board[row][col]} />
+                            )
+                        }
+                    </div>
+                )
+            )
+        }
+        </div>
+    );
+};
+
+class App extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            board: [
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', '']
+            ],
+            counter: 0
+        };
+
+        this.onMove = this.onMove.bind(this);
+    }
+
+    render() {
+        return <Board board={this.state.board} onMove={this.onMove} />
+    }
+
+    onMove(e) {
+        const currentTarget = e.target;
+
+        if (!currentTarget.classList.contains('board-square')) return;
+
+        const board = this.state.board.slice();
+        const dataset = currentTarget.dataset;
+        const counter = this.state.counter;
+
+        if (board[dataset.y][dataset.x] !== '') return;
+        board[dataset.y][dataset.x] = counter % 2 === 0 ? 'X' : 'O';
+
+        this.setState({
+            counter: counter + 1,
+            board
+        });
+    }
+}
+
+export default App;
